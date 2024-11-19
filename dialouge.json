@@ -1,0 +1,58 @@
+
+[
+    {
+        "y": 10,
+        "x": 108,
+        "dialouge": "I hate my job. Its just standing still man."
+
+    },
+    {
+        "y": 1,
+        "x": 109,
+        "dialouge": ["COOLIO1 IS MISSING DONT ASK WHY!!!!", "HE TRIED LOOKING FOR HIS CAT, CATIO2, BUT FAILED!!!", "I HOPE HE'S OK!!!"]
+
+    },
+    {
+
+        "y": 5,
+        "x": 75,
+        "dialouge": ["i really hope chatting with everyone was worth it", "good job for finding this though lol"]
+
+    },
+    {
+
+        "y": 2,
+        "x": 36,
+        "dialouge": ["Nope, not getting in.", "Secret meeting going on in there, unserious buisness."]
+
+    },
+    {
+
+        "y": 18,
+        "x": 36,
+        "dialouge": ["OH YEAAAHHHH", "ITS ME, CASH MONEY", "RICHEST KID IN THIS 'TOWN'", "you really dont know me?", "WELL TO BAD KID!!!!", "PREPARE TO HAVE THESE GOLDEN FISTS!!"]
+
+    },
+    {
+
+        "y": 17,
+        "x": 64,
+        "dialouge": ["wassup.", "im coolio1, the og", "tell the people that i never had i cat and im still here.", ["Sure.", 4, "No lol", 5], ["k thanks", 6], "im coming for you"]
+
+    },
+    {
+
+        "y": 24,
+        "x": 10,
+        "dialouge": ["Yknow, I really hope you came here for good reason.", "I was just on break.", "You just wasted it.", "Perish."]
+
+    },
+    {
+
+        "y": 17,
+        "x": 17,
+        "dialouge": ["...", "..box"]
+
+    }
+
+]
