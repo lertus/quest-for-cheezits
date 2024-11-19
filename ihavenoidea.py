@@ -279,7 +279,7 @@ bgimage = pygame.image.load('grasslol.png')
 bgimage = pygame.transform.scale(bgimage, (64, 64))
 coolbgimage = pygame.image.load('coolgrasslol.png')
 coolbgimage = pygame.transform.scale(coolbgimage, (64, 64))
-void1 = pygame.image.load('voidedbird.png')
+void1 = pygame.image.load('void.png')
 void1 = pygame.transform.scale(void1, (64, 64))
 wallnt = pygame.image.load('wallnt.png')
 wallnt = pygame.transform.scale(wallnt, (64, 64))
@@ -312,6 +312,7 @@ DictionaryOfDeez = LoadDialouge("dialouge.json")
 with open("dialougefight.json", "r") as f:
     DialougebutViolent = json.load(f)
 
+Inventory = []
 
 # Main loop
 running = True
