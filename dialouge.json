@@ -53,6 +53,13 @@
         "x": 17,
         "dialouge": ["...", "..box"]
 
+    },
+    {
+
+        "x": 37,
+        "y": 23,
+        "dialouge": ["Ya lookin' for sumthin'?"]
+
     }
 
 ]

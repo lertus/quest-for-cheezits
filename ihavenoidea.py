@@ -37,6 +37,8 @@ def LoadMap(FileNameAgain):
                     Sprites.append(YOMI)
                 elif C == "B":
                     Sprites.append(box)
+                elif C == "|":
+                    Sprites.append(shopkeeper)
             Map.append(Sprites)
     return Map
 
@@ -110,6 +112,63 @@ def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 
         Rect = Text.get_rect(center = (TextX, TextY))
         screen.blit(Text, Rect)
         TextY += 64
+
+
+def ShopTime():
+    with open("CoolShop.json", "r") as file:
+        ShopData = json.load(file)
+    for DictonaryOfShopping in ShopData:
+        if DictonaryOfShopping["x"] == THEEnemyX and DictonaryOfShopping["y"] == THEEnemyY:
+            ShopItems = DictonaryOfShopping["items"]
+            ItemPrices = DictonaryOfShopping["prices"]
+            ItemWITHPrices = [ShopItems[i] + " " + str(ItemPrices[i]) for i in range(len(ShopItems))]
+            ItemWITHPrices.append("Get outta here!")
+    imageshop = pygame.image.load('Shop.png')
+    imageshop = pygame.transform.scale(imageshop, (1024, 768))
+    imageCoolBuck = pygame.image.load('coolbuck.png')
+    imageCoolBuck = pygame.transform.scale(imageCoolBuck, (64, 64))
+    pygame.mixer.music.stop() 
+    StoreSound = pygame.mixer.Sound("storebell.mp3")
+    StoreSound.play()
+    for y in range(12):
+        for x in range (16):
+            for i in range(12):
+                for j in range(16):
+                    if i > y or (i == y and j > x):    
+                        screen.blit(Map[i + Yoffset][j + Xoffset], [64 * j, 64 * i])
+                    else:
+                        BBBOX = pygame.Rect(64 * j, 64 * i, 64, 64)
+                        pygame.draw.rect(screen, (0, 0, 0), BBBOX)
+            pygame.display.flip()
+            pygame.time.delay(2)
+    pygame.mixer.music.load("Tycoon.mp3")
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
+    StillShopping = True
+    Menu = 0
+    while StillShopping == True:
+        screen.blit(imageshop, [0, 0])
+        #ShopItems = ["Item1", "Item2", "Item3", "Get outta here!"]
+        DrawTheMenu(Menu, ItemWITHPrices, TextX = 70, TextY = 130, TextColor = (255, 255, 255))
+        Text = Font.render(str(CoolBucks), False, (255, 255, 255))
+        Rect = Text.get_rect(center = (844, 180))
+        screen.blit(Text, Rect)
+        screen.blit(imageCoolBuck, (934, 160))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    Menu += 1
+                    if Menu >= len(ShopItems):
+                        Menu = len(ShopItems) - 1
+                elif event.key == pygame.K_UP:
+                    Menu -= 1
+                    if Menu <= 0:
+                        Menu = 0
+                elif event.key == pygame.K_e:
+                    if Menu == len(ShopItems) - 1:
+                        StillShopping = False
+        
 
 def LeFightCommence():
     imageWHAT = pygame.image.load('You.png')
@@ -254,6 +313,8 @@ def MapMaker():
     Surface = pygame.Surface((Columns * 64, Rows * 64))
     for i in range(Rows):
         for j in range (Columns):
+            if Map[i][j] in BGNEEDEDFiles:
+                Surface.blit(BMap[i][j], (64 * j, 64 * i))
             Surface.blit(Map[i][j], (64 * j, 64 * i))
     pygame.image.save(Surface, "guh.png")
 
@@ -293,8 +354,11 @@ YOMI = pygame.image.load('YOMI.png')
 YOMI =  pygame.transform.scale(YOMI, (64, 64))
 box = pygame.image.load('box.png')
 box =  pygame.transform.scale(box, (64, 64))
+shopkeeper = pygame.image.load('merchant.png')
+shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
 image_width, image_height = image.get_size()
 Map = LoadMap("ConfusingBaseplate.txt")
+BMap = LoadMap("Backgroundjustincase.txt")
 EastFiles = ['WalkingEast/Oldbusinessmanwalkingeast1.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png', 'WalkingEast/Oldbusinessmanwalkingeast5.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png']
 WestFiles = ['WalkingWest/Oldbusinessmanwalkingwest1.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png', 'WalkingWest/Oldbusinessmanwalkingwest5.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png']
 SouthFiles = ['WalkingSouth/Oldbusinessmanwalkingsouth1.png', 'WalkingSouth/Oldbusinessmanwalkingsouth3.png', 'WalkingSouth/Oldbusinessmanwalkingsouth5.png', 'WalkingSouth/Oldbusinessmanwalkingsouth3.png']
@@ -303,9 +367,11 @@ EastImages = LoadImages(EastFiles)
 WestImages = LoadImages(WestFiles)
 SouthImages = LoadImages(SouthFiles)
 NorthImages = LoadImages(NorthFiles)
-NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box]
-YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box]
+NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper]
+YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
 ViolentFiles = [cashmoney, YOMI, box]
+ShoppingFiles = [shopkeeper]
+BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper]
 with open("damageiscoolforhealth.json", "r") as f:
     ViolentwithCheese = json.load(f)
 DictionaryOfDeez = LoadDialouge("dialouge.json")
@@ -313,6 +379,8 @@ with open("dialougefight.json", "r") as f:
     DialougebutViolent = json.load(f)
 
 Inventory = []
+CoolBucks = 5
+
 
 # Main loop
 running = True
@@ -371,18 +439,26 @@ while running:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX + 1)
         THEEnemy = Map[SpriteY][SpriteX + 1]
+        THEEnemyX = SpriteX + 1
+        THEEnemyY = SpriteY
     elif SpriteX > 0 and Map[SpriteY] [SpriteX - 1] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX - 1)
         THEEnemy = Map[SpriteY][SpriteX - 1]
+        THEEnemyX = SpriteX - 1
+        THEEnemyY = SpriteY
     elif SpriteY < len(Map) - 1 and Map[SpriteY + 1] [SpriteX] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY + 1, SpriteX)
         THEEnemy = Map[SpriteY + 1][SpriteX]
+        THEEnemyX = SpriteX
+        THEEnemyY = SpriteY + 1
     elif SpriteY > 0 and Map[SpriteY - 1] [SpriteX] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY - 1, SpriteX)
         THEEnemy = Map[SpriteY - 1][SpriteX]
+        THEEnemyX = SpriteX
+        THEEnemyY = SpriteY - 1
     else:
         PersonalSpace = False
     if SpriteX > 12:
@@ -399,6 +475,8 @@ while running:
         Yoffset = 0
     for i in range(12):
         for j in range(16):
+            if Map[i + Yoffset][j + Xoffset] in BGNEEDEDFiles:
+                screen.blit(BMap[i + Yoffset][j + Xoffset], [64 * j, 64 * i])
             screen.blit(Map[i + Yoffset][j + Xoffset], [64 * j, 64 * i])
             
     screen.blit(image, [64 * (SpriteX - Xoffset), 64 * (SpriteY - Yoffset)])
@@ -418,6 +496,12 @@ while running:
                             pygame.mixer.music.load("noors.wav")
                             pygame.mixer.music.set_volume(0.2)
                             pygame.mixer.music.play(-1)
+                        elif THEEnemy in ShoppingFiles:
+                            ShopTime()
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load("noors.wav")
+                            pygame.mixer.music.set_volume(0.2)
+                            pygame.mixer.music.play(-1)
                     elif type(StringHolder) is list and len(StringHolder) > 2:
                         RipOffRugrats = StringHolder[DialougeChoice * 2 + 1]
                         StringHolder = YapHolder[RipOffRugrats]
@@ -429,6 +513,12 @@ while running:
                             RipOffRugrats = -1
                             if THEEnemy in ViolentFiles:
                                 LeFightCommence()
+                                pygame.mixer.music.stop()
+                                pygame.mixer.music.load("noors.wav")
+                                pygame.mixer.music.set_volume(0.2)
+                                pygame.mixer.music.play(-1)
+                            elif THEEnemy in ShoppingFiles:
+                                ShopTime()
                                 pygame.mixer.music.stop()
                                 pygame.mixer.music.load("noors.wav")
                                 pygame.mixer.music.set_volume(0.2)

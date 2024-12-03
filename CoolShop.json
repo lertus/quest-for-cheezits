@@ -1,0 +1,12 @@
+[
+
+    {
+        "shopname": "Coolio2Shop",
+        "x": 37,
+        "y": 23,
+        "items": ["Prodigy's 'Protein'", "Really cool cookie from grandma's", "Rusty sword", "Rusty armor", "WARHAMMAR"],
+        "prices": [2, 2, 3, 5, 45]
+
+    }
+
+]

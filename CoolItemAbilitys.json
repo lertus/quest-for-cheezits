@@ -1,0 +1,30 @@
+[
+
+    {
+
+        "name": "Prodigy's 'Protien'",
+        "type": "item",
+        "icon": "Placeholder.png",
+        "buffs": [{"damage": 0.25}],
+        "duration": 2
+
+    },
+    {
+
+        "name": "Rusty sword",
+        "type": "blade",
+        "icon": "Placeholder.png",
+        "damage": [4, 3],
+        "prob": [6, 5]
+
+    },
+    {
+
+        "name": "Rusty armor",
+        "type": "armor",
+        "icon": "Placeholder.png",
+        "health": 4
+
+    }
+
+]
