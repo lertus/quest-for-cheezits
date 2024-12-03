@@ -109,7 +109,7 @@ def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 
         else:
             Text2 = "  " + Text2
         Text = Font.render(Text2, False, TextColor)
-        Rect = Text.get_rect(center = (TextX, TextY))
+        Rect = Text.get_rect(topleft = (TextX, TextY))
         screen.blit(Text, Rect)
         TextY += 64
 
@@ -149,7 +149,7 @@ def ShopTime():
     while StillShopping == True:
         screen.blit(imageshop, [0, 0])
         #ShopItems = ["Item1", "Item2", "Item3", "Get outta here!"]
-        DrawTheMenu(Menu, ItemWITHPrices, TextX = 70, TextY = 130, TextColor = (255, 255, 255))
+        DrawTheMenu(Menu, ItemWITHPrices, TextX = 90, TextY = 130, TextColor = (255, 255, 255))
         Text = Font.render(str(CoolBucks), False, (255, 255, 255))
         Rect = Text.get_rect(center = (844, 180))
         screen.blit(Text, Rect)
@@ -223,23 +223,32 @@ def LeFightCommence():
         elif MyTurnYipee == True:
             ADecisionMade = False
             OkNiceMove = 0
+            PlayerMoveTemp = PlayerData["moves"]
+            PlayerMove = []
+            for move in PlayerMoveTemp:
+                if "cooldown" not in move or move["name"] not in PlayerCooldown or PlayerCooldown[move["name"]] <= 0:
+                    PlayerMove.append(move)
             while ADecisionMade == False:
                 DrawTheFight(EnemyBIG, imageWHAT, " ", PlayerHp, EnemyHp)
-                DrawTheMenu(OkNiceMove, PlayerData["moves"])
+                DrawTheMenu(OkNiceMove, PlayerMove)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_DOWN:
                             OkNiceMove += 1
-                            if OkNiceMove >= len(PlayerData["moves"]):
-                                OkNiceMove = len(PlayerData["moves"]) - 1
+                            if OkNiceMove >= len(PlayerMove):
+                                OkNiceMove = len(PlayerMove) - 1
                         elif event.key == pygame.K_UP:
                             OkNiceMove -= 1
                             if OkNiceMove <= 0:
                                 OkNiceMove = 0
                         elif event.key == pygame.K_e:
-                            LETSGOGAMBLING = PlayerData["moves"][OkNiceMove]
+                            LETSGOGAMBLING = PlayerMove[OkNiceMove]
                             ADecisionMade = True
+                            if "cooldown" in LETSGOGAMBLING:
+                                PlayerCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
+            for Key in PlayerCooldown:
+                PlayerCooldown[Key] -= 1
                 
                 
             #LETSGOGAMBLING = random.choice(PlayerData["moves"])
