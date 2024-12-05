@@ -115,12 +115,18 @@ def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 
 
 
 def ShopTime():
+    global CoolBucks
     with open("CoolShop.json", "r") as file:
         ShopData = json.load(file)
+    with open("CoolItemAbilitys.json", "r") as file:
+        ItemData = json.load(file)
+    InventoryNames = [i["name"] for i in Inventory]
     for DictonaryOfShopping in ShopData:
         if DictonaryOfShopping["x"] == THEEnemyX and DictonaryOfShopping["y"] == THEEnemyY:
-            ShopItems = DictonaryOfShopping["items"]
-            ItemPrices = DictonaryOfShopping["prices"]
+            ShopItemsTemp = DictonaryOfShopping["items"]
+            ItemPricesTemp = DictonaryOfShopping["prices"]
+            ItemPrices = [ItemPricesTemp[i] for i in range(len(ShopItemsTemp)) if ShopItemsTemp[i] not in InventoryNames]
+            ShopItems = [ShopItemsTemp[i] for i in range(len(ShopItemsTemp)) if ShopItemsTemp[i] not in InventoryNames]
             ItemWITHPrices = [ShopItems[i] + " " + str(ItemPrices[i]) for i in range(len(ShopItems))]
             ItemWITHPrices.append("Get outta here!")
     imageshop = pygame.image.load('Shop.png')
@@ -145,29 +151,56 @@ def ShopTime():
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
     StillShopping = True
+    ShowingMessage =False
     Menu = 0
     while StillShopping == True:
         screen.blit(imageshop, [0, 0])
         #ShopItems = ["Item1", "Item2", "Item3", "Get outta here!"]
-        DrawTheMenu(Menu, ItemWITHPrices, TextX = 90, TextY = 130, TextColor = (255, 255, 255))
         Text = Font.render(str(CoolBucks), False, (255, 255, 255))
         Rect = Text.get_rect(center = (844, 180))
         screen.blit(Text, Rect)
         screen.blit(imageCoolBuck, (934, 160))
+        if ShowingMessage == True:
+            Text = Font.render(PurchaceMessage, False, (255, 255, 255))
+            Rect = Text.get_rect(center = (512, 384))
+            Box = Rect.inflate(20, 20)
+            pygame.draw.rect(screen, (0, 0, 0), Box)
+            screen.blit(Text, Rect)
+        else:
+            DrawTheMenu(Menu, ItemWITHPrices, TextX = 40, TextY = 120, TextColor = (255, 255, 255))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if ShowingMessage == True:
+                    ShowingMessage = False
+                    break
                 if event.key == pygame.K_DOWN:
                     Menu += 1
-                    if Menu >= len(ShopItems):
-                        Menu = len(ShopItems) - 1
+                    if Menu >= len(ItemWITHPrices):
+                        Menu = len(ItemWITHPrices) - 1
                 elif event.key == pygame.K_UP:
                     Menu -= 1
                     if Menu <= 0:
                         Menu = 0
                 elif event.key == pygame.K_e:
-                    if Menu == len(ShopItems) - 1:
+                    if Menu == len(ItemWITHPrices) - 1:
                         StillShopping = False
+                    else:
+                        ShowingMessage = True
+                        if CoolBucks >= ItemPrices[Menu]:
+                            PurchaceMessage = "Thanks."
+                            CoolBucks -= ItemPrices[Menu]
+                            for Item in ItemData:
+                                if Item["name"] == ShopItems[Menu]:
+                                    PurchasedItem = Item
+                            if PurchasedItem["type"] in ["blade", "blunt", "armor"]:
+                                ItemWITHPrices.pop(Menu)
+                                ShopItems.pop(Menu)
+                                ItemPrices.pop(Menu)
+                            Inventory.append(PurchasedItem)
+                        else:
+                            PurchaceMessage = "Sorry pal, ya dont have enough."
+                                    
         
 
 def LeFightCommence():

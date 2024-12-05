@@ -2,10 +2,18 @@
 
     {
 
-        "name": "Prodigy's 'Protien'",
+        "name": "Prodigy's 'Protein'",
         "type": "item",
         "icon": "Placeholder.png",
         "buffs": [{"damage": 0.25}],
+        "duration": 2
+
+    },
+    {
+
+        "name": "Really cool cookie from grandma's",
+        "type": "item",
+        "buffs": [{"resistance": 0.5}],
         "duration": 2
 
     },
@@ -24,6 +32,15 @@
         "type": "armor",
         "icon": "Placeholder.png",
         "health": 4
+
+    },
+    {
+
+        "name": "WARHAMMAR",
+        "type": "blunt",
+        "icon": "Placeholder.png",
+        "damage": [7, 8],
+        "prob": [1, 2]
 
     }
 
