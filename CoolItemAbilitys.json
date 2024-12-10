@@ -13,6 +13,7 @@
 
         "name": "Really cool cookie from grandma's",
         "type": "item",
+        "icon": "Placeholder.png",
         "buffs": [{"resistance": 0.5}],
         "duration": 2
 

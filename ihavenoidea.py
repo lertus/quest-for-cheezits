@@ -167,7 +167,7 @@ def ShopTime():
             pygame.draw.rect(screen, (0, 0, 0), Box)
             screen.blit(Text, Rect)
         else:
-            DrawTheMenu(Menu, ItemWITHPrices, TextX = 40, TextY = 120, TextColor = (255, 255, 255))
+            DrawTheMenu(Menu, ItemWITHPrices, TextX = 20, TextY = 120, TextColor = (255, 255, 255))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -201,6 +201,7 @@ def ShopTime():
                         else:
                             PurchaceMessage = "Sorry pal, ya dont have enough."
                                     
+
         
 
 def LeFightCommence():
@@ -242,6 +243,9 @@ def LeFightCommence():
         DialougeHit = [""]
         DialougeTauntish = [""]
     PlayerHp = PlayerData["health"]
+    for Item in Inventory:
+        if Item["type"] == "armor":
+            PlayerHp += Item["health"]
     JustBreakItUpYouTwo = True
     EnemyBIG = pygame.transform.scale(THEEnemy, (256, 256))
     while JustBreakItUpYouTwo == True:
@@ -256,8 +260,16 @@ def LeFightCommence():
         elif MyTurnYipee == True:
             ADecisionMade = False
             OkNiceMove = 0
-            PlayerMoveTemp = PlayerData["moves"]
+            PlayerMoveTemp = PlayerData["moves"].copy()
             PlayerMove = []
+            HasWeapons = False
+            for Item in Inventory:
+                if Item["type"] == "blade" or Item["type"] == "blunt":
+                    HasWeapons = True
+                    Item["self"] = False
+                    PlayerMove.append(Item)
+            if HasWeapons == True:
+                PlayerMoveTemp.pop(0)
             for move in PlayerMoveTemp:
                 if "cooldown" not in move or move["name"] not in PlayerCooldown or PlayerCooldown[move["name"]] <= 0:
                     PlayerMove.append(move)
@@ -338,8 +350,27 @@ def LeFightCommence():
                     WaitinForAKey = False
 
     
-
-
+def OpenInventory():
+    BBBOX = pygame.Rect(0, 0, 1024, 768)
+    pygame.draw.rect(screen, (0, 0, 0), BBBOX)
+    CurrentY = 50
+    for Item in Inventory:
+        IconImage = pygame.image.load(Item["icon"])
+        IconImage= pygame.transform.scale(IconImage, (64, 64))
+        screen.blit(IconImage, [20, CurrentY])
+        Text = Font.render(Item["name"], False, (255, 255, 255))
+        Rect = Text.get_rect(topleft = (100, CurrentY))
+        screen.blit(Text, Rect)
+        CurrentY += 75
+    #screen.blit(, [15, 192])
+    pygame.display.flip()
+    ShowingInventory = True
+    while ShowingInventory == True:
+        for event in pygame.event.get():   
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_i:
+                    ShowingInventory = False
+        
         
 def GoogleIt(y, x):
     print(y, x)
@@ -574,6 +605,8 @@ while running:
                     StringHolder = YapHolder
             if event.key == pygame.K_m:
                 MapMaker()
+            if event.key == pygame.K_i:
+                OpenInventory()
             if event.key == pygame.K_DOWN and Interaction == True:
                 DialougeChoice += 1
                 if DialougeChoice >= len(StringHolder) / 2:
