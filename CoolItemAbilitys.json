@@ -3,17 +3,19 @@
     {
 
         "name": "Prodigy's 'Protein'",
+        "desc": "this is not protein.",
         "type": "item",
-        "icon": "Placeholder.png",
+        "icon": "prodprotein.png",
         "buffs": [{"damage": 0.25}],
-        "duration": 2
+        "duration": 3
 
     },
     {
 
-        "name": "Really cool cookie from grandma's",
+        "name": "Really cool cookie|from grandma's",
+        "desc": "YAY!!!",
         "type": "item",
-        "icon": "Placeholder.png",
+        "icon": "cookie.png",
         "buffs": [{"resistance": 0.5}],
         "duration": 2
 
@@ -21,8 +23,9 @@
     {
 
         "name": "Rusty sword",
+        "desc": "tetanus",
         "type": "blade",
-        "icon": "Placeholder.png",
+        "icon": "rustysword.png",
         "damage": [4, 3],
         "prob": [6, 5]
 
@@ -30,14 +33,16 @@
     {
 
         "name": "Rusty armor",
+        "desc": "wearable tetanus",
         "type": "armor",
-        "icon": "Placeholder.png",
+        "icon": "rustyarmor.png",
         "health": 4
 
     },
     {
 
         "name": "WARHAMMAR",
+        "desc": "GRAAHHHH!!!",
         "type": "blunt",
         "icon": "Placeholder.png",
         "damage": [7, 8],

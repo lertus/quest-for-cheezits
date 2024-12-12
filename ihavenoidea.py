@@ -108,9 +108,10 @@ def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 
             Text2 = "* " + Text2
         else:
             Text2 = "  " + Text2
-        Text = Font.render(Text2, False, TextColor)
-        Rect = Text.get_rect(topleft = (TextX, TextY))
-        screen.blit(Text, Rect)
+        #Text = Font.render(Text2, False, TextColor)
+        #Rect = Text.get_rect(topleft = (TextX, TextY))
+        #screen.blit(Text, Rect)
+        TextCooler(LinesofText=Text2.split("|"), TextColor=TextColor, TextPosition=(TextX, TextY))
         TextY += 64
 
 
@@ -350,17 +351,28 @@ def LeFightCommence():
                     WaitinForAKey = False
 
     
+def TextCooler(LinesofText, TextColor, TextPosition):
+    Yoffset = 0
+    for Lines in LinesofText:
+        Text = Font.render(Lines, False, TextColor)
+        Rect = Text.get_rect(topleft = (TextPosition[0], TextPosition[1] + Yoffset))
+        Yoffset += 20
+        screen.blit(Text, Rect)
+    
+    
 def OpenInventory():
     BBBOX = pygame.Rect(0, 0, 1024, 768)
-    pygame.draw.rect(screen, (0, 0, 0), BBBOX)
+    pygame.draw.rect(screen, (150, 150, 150), BBBOX)
     CurrentY = 50
     for Item in Inventory:
         IconImage = pygame.image.load(Item["icon"])
         IconImage= pygame.transform.scale(IconImage, (64, 64))
         screen.blit(IconImage, [20, CurrentY])
-        Text = Font.render(Item["name"], False, (255, 255, 255))
-        Rect = Text.get_rect(topleft = (100, CurrentY))
-        screen.blit(Text, Rect)
+        #Text = Font.render(Item["name"], False, (0, 0, 0))
+        #Rect = Text.get_rect(topleft = (100, CurrentY))
+        #screen.blit(Text, Rect)
+        TextCooler(LinesofText=Item["name"].split("|"), TextColor=(0, 0, 0), TextPosition=(100, CurrentY))
+        TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(500, CurrentY))
         CurrentY += 75
     #screen.blit(, [15, 192])
     pygame.display.flip()
@@ -434,7 +446,7 @@ Map = LoadMap("ConfusingBaseplate.txt")
 BMap = LoadMap("Backgroundjustincase.txt")
 EastFiles = ['WalkingEast/Oldbusinessmanwalkingeast1.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png', 'WalkingEast/Oldbusinessmanwalkingeast5.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png']
 WestFiles = ['WalkingWest/Oldbusinessmanwalkingwest1.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png', 'WalkingWest/Oldbusinessmanwalkingwest5.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png']
-SouthFiles = ['WalkingSouth/Oldbusinessmanwalkingsouth1.png', 'WalkingSouth/Oldbusinessmanwalkingsouth3.png', 'WalkingSouth/Oldbusinessmanwalkingsouth5.png', 'WalkingSouth/Oldbusinessmanwalkingsouth3.png']
+SouthFiles = ['PlayerWalk/WalkSouth1.png', 'PlayerWalk/WalkSouth2.png', 'PlayerWalk/WalkSouth3.png', 'PlayerWalk/WalkSouth2.png']
 NorthFiles = ['WalkingNorth/Oldbusinessmanwalkingnorth1.png', 'WalkingNorth/Oldbusinessmanwalkingnorth3.png', 'WalkingNorth/Oldbusinessmanwalkingnorth5.png', 'WalkingNorth/Oldbusinessmanwalkingnorth3.png']
 EastImages = LoadImages(EastFiles)
 WestImages = LoadImages(WestFiles)
