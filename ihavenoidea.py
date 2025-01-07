@@ -206,6 +206,8 @@ def ShopTime():
         
 
 def LeFightCommence():
+    ActiveBuffs = []
+    BuffDurations = []
     imageWHAT = pygame.image.load('You.png')
     imageWHAT = pygame.transform.scale(imageWHAT, (256, 256))
     pygame.mixer.music.stop()
@@ -269,6 +271,9 @@ def LeFightCommence():
                     HasWeapons = True
                     Item["self"] = False
                     PlayerMove.append(Item)
+                if Item["type"] == "item":
+                    Item["self"] = False
+                    PlayerMove.append(Item)
             if HasWeapons == True:
                 PlayerMoveTemp.pop(0)
             for move in PlayerMoveTemp:
@@ -276,7 +281,7 @@ def LeFightCommence():
                     PlayerMove.append(move)
             while ADecisionMade == False:
                 DrawTheFight(EnemyBIG, imageWHAT, " ", PlayerHp, EnemyHp)
-                DrawTheMenu(OkNiceMove, PlayerMove)
+                DrawTheMenu(OkNiceMove, PlayerMove, TextX= 520, TextY= 470)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -293,24 +298,40 @@ def LeFightCommence():
                             ADecisionMade = True
                             if "cooldown" in LETSGOGAMBLING:
                                 PlayerCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
+                            if "type" in LETSGOGAMBLING and LETSGOGAMBLING["type"] == "item":
+                                for i in range(len(Inventory)):
+                                    if Inventory[i]["name"] == LETSGOGAMBLING["name"]:
+                                        Inventory.pop(i)
+                                        break
+                                ActiveBuffs  += LETSGOGAMBLING["buffs"]
+                                BuffDurations += [LETSGOGAMBLING["duration"] + 1] * len(LETSGOGAMBLING["buffs"])
             for Key in PlayerCooldown:
                 PlayerCooldown[Key] -= 1
-                
+            for i in range(len(BuffDurations)):
+                BuffDurations[i] -= 1
                 
             #LETSGOGAMBLING = random.choice(PlayerData["moves"])
-            if len(LETSGOGAMBLING["prob"]) == 1:
-                damage = LETSGOGAMBLING["damage"][0]
+            if "prob" in LETSGOGAMBLING:
+                DamageMultiplier = 1.0
+                for i in range(len(BuffDurations)):
+                    if BuffDurations[i] > 0 and "damage" in ActiveBuffs[i]:
+                        DamageMultiplier += ActiveBuffs[i]["damage"]
+                if len(LETSGOGAMBLING["prob"]) == 1:
+                    damage = LETSGOGAMBLING["damage"][0]
+                else:
+                    damage = SpintheWHEEL(LETSGOGAMBLING["prob"], LETSGOGAMBLING["damage"])
+                damage *= DamageMultiplier
+                Text2 = f"You decided to use {LETSGOGAMBLING['name']}, it did {damage}!"
+                
+                if LETSGOGAMBLING["self"] == True:
+                    PlayerHp -= damage
+                    if PlayerHp >= PlayerData["health"]:
+                        PlayerHp = PlayerData["health"]
+                else:
+                    Text3 = random.choice(DialougeHit)
+                    EnemyHp -= damage
             else:
-                damage = SpintheWHEEL(LETSGOGAMBLING["prob"], LETSGOGAMBLING["damage"])
-            Text2 = f"You decided to use {LETSGOGAMBLING['name']}, it did {damage}!"
-            
-            if LETSGOGAMBLING["self"] == True:
-                PlayerHp -= damage
-                if PlayerHp >= PlayerData["health"]:
-                    PlayerHp = PlayerData["health"]
-            else:
-                Text3 = random.choice(DialougeHit)
-                EnemyHp -= damage
+                Text2 = f"You decided to use {LETSGOGAMBLING['name']}"
         elif MyTurnYipee == False:
             MoveChosen = False
             while not MoveChosen:
@@ -324,11 +345,17 @@ def LeFightCommence():
                         EnemyCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
             for Key in EnemyCooldown:
                 EnemyCooldown[Key] -= 1
-                        
+            ResistanceMultiplier = 1.0
+            for i in range(len(BuffDurations)):
+                if BuffDurations[i] > 0 and "resistance" in ActiveBuffs[i]:
+                    ResistanceMultiplier -= ActiveBuffs[i]["resistance"]
+            if ResistanceMultiplier < 0:
+                ResistanceMultiplier = 0.0
             if len(LETSGOGAMBLING["prob"]) == 1:
                 damage = LETSGOGAMBLING["damage"][0]
             else:
                 damage = SpintheWHEEL(LETSGOGAMBLING["prob"], LETSGOGAMBLING["damage"])
+            damage *= ResistanceMultiplier
             Text2 = f"{EnemyData['name']} used {LETSGOGAMBLING['name']}, so it did {damage}!"
             if LETSGOGAMBLING["self"] == True:
                 EnemyHp -= damage
@@ -361,9 +388,10 @@ def TextCooler(LinesofText, TextColor, TextPosition):
     
     
 def OpenInventory():
-    BBBOX = pygame.Rect(0, 0, 1024, 768)
-    pygame.draw.rect(screen, (150, 150, 150), BBBOX)
-    CurrentY = 50
+    InventoryImage = pygame.image.load("CoolInventory.png")
+    InventoryImage = pygame.transform.scale(InventoryImage, (1024, 768))
+    screen.blit(InventoryImage, (0, 0))
+    CurrentY = 110
     for Item in Inventory:
         IconImage = pygame.image.load(Item["icon"])
         IconImage= pygame.transform.scale(IconImage, (64, 64))
@@ -372,7 +400,7 @@ def OpenInventory():
         #Rect = Text.get_rect(topleft = (100, CurrentY))
         #screen.blit(Text, Rect)
         TextCooler(LinesofText=Item["name"].split("|"), TextColor=(0, 0, 0), TextPosition=(100, CurrentY))
-        TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(500, CurrentY))
+        TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(750, CurrentY))
         CurrentY += 75
     #screen.blit(, [15, 192])
     pygame.display.flip()
