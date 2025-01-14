@@ -39,6 +39,8 @@ def LoadMap(FileNameAgain):
                     Sprites.append(box)
                 elif C == "|":
                     Sprites.append(shopkeeper)
+                elif C == "^":
+                    Sprites.append(woodenstairs)
             Map.append(Sprites)
     return Map
 
@@ -442,7 +444,7 @@ pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(-1)
 # Set up display
 screen_width, screen_height = 1024, 768
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width, screen_height), pygame.SCALED | pygame.RESIZABLE)
 pygame.display.set_caption("Coolio2 ROCKS!!")
 # Load image (Make sure the image is in the same directory or provide a full path)
 image = pygame.image.load('fella smaller.png')
@@ -467,6 +469,8 @@ YOMI = pygame.image.load('YOMI.png')
 YOMI =  pygame.transform.scale(YOMI, (64, 64))
 box = pygame.image.load('box.png')
 box =  pygame.transform.scale(box, (64, 64))
+woodenstairs = pygame.image.load('stairs_wooden.png')
+woodenstairs = pygame.transform.scale(woodenstairs, (64, 64))
 shopkeeper = pygame.image.load('merchant.png')
 shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
 image_width, image_height = image.get_size()
@@ -483,6 +487,7 @@ NorthImages = LoadImages(NorthFiles)
 NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper]
 YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
 ViolentFiles = [cashmoney, YOMI, box]
+StairsUplol = [woodenstairs]
 ShoppingFiles = [shopkeeper]
 BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper]
 with open("damageiscoolforhealth.json", "r") as f:
@@ -498,8 +503,8 @@ CoolBucks = 5
 # Main loop
 running = True
 #image_position = [0, 0]
-SpriteX = 0
-SpriteY = 0
+SpriteX = 83
+SpriteY = 33
 #imagep_coolio2 = [1024 - 128, 384]
 xSpeed = 64
 ySpeed = 64
@@ -548,6 +553,10 @@ while running:
             image = pygame.image.load('PS.jpeg')
             
             print("hardy har har")
+        if keys[pygame.K_EQUALS]:
+            pygame.display.toggle_fullscreen()
+    if Map[SpriteY][SpriteX] in StairsUplol:
+        Map = LoadMap("stairs.txt")
     if SpriteX < len(Map[0]) - 1 and Map[SpriteY] [SpriteX + 1] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX + 1)
