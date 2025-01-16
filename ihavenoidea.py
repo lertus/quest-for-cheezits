@@ -43,6 +43,8 @@ def LoadMap(FileNameAgain):
                     Sprites.append(woodenstairs)
                 elif C == "v":
                     Sprites.append(woodenstairsdown)
+                elif C == ":":
+                    Sprites.append(bucketguy)
             Map.append(Sprites)
     return Map
 
@@ -481,7 +483,11 @@ shopkeeper = pygame.image.load('merchant.png')
 shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
 image_width, image_height = image.get_size()
 Map = LoadMap("ConfusingBaseplate.txt")
+BaseplateMap = Map
+PizzaMap = LoadMap("stairs.txt")
 BMap = LoadMap("Backgroundjustincase.txt")
+BaseplateBMap = BMap
+PizzaBMap = LoadMap("stairspizza.txt")
 EastFiles = ['WalkingEast/Oldbusinessmanwalkingeast1.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png', 'WalkingEast/Oldbusinessmanwalkingeast5.png', 'WalkingEast/Oldbusinessmanwalkingeast3.png']
 WestFiles = ['WalkingWest/Oldbusinessmanwalkingwest1.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png', 'WalkingWest/Oldbusinessmanwalkingwest5.png', 'WalkingWest/Oldbusinessmanwalkingwest3.png']
 SouthFiles = ['PlayerWalk/WalkSouth1.png', 'PlayerWalk/WalkSouth2.png', 'PlayerWalk/WalkSouth3.png', 'PlayerWalk/WalkSouth2.png']
@@ -490,13 +496,14 @@ EastImages = LoadImages(EastFiles)
 WestImages = LoadImages(WestFiles)
 SouthImages = LoadImages(SouthFiles)
 NorthImages = LoadImages(NorthFiles)
-NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper]
+NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
 YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
-ViolentFiles = [cashmoney, YOMI, box]
+ViolentFiles = [cashmoney, YOMI, box, bucketguy]
+SchmovinFiles = [bucketguy]
 StairsUplol = [woodenstairs]
 StairsDownlol = [woodenstairsdown]
 ShoppingFiles = [shopkeeper]
-BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper]
+BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper, bucketguy]
 with open("damageiscoolforhealth.json", "r") as f:
     ViolentwithCheese = json.load(f)
 DictionaryOfDeez = LoadDialouge("dialouge.json")
@@ -564,9 +571,11 @@ while running:
         if keys[pygame.K_EQUALS]:
             pygame.display.toggle_fullscreen()
     if Map[SpriteY][SpriteX] in StairsUplol:
-        Map = LoadMap("stairs.txt")
+        Map = PizzaMap
+        BMap = PizzaBMap
     if Map[SpriteY][SpriteX] in StairsDownlol:
-        Map = LoadMap("ConfusingBaseplate.txt")
+        Map = BaseplateMap
+        BMap = BaseplateBMap
     if SpriteX < len(Map[0]) - 1 and Map[SpriteY] [SpriteX + 1] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX + 1)
