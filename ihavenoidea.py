@@ -41,6 +41,8 @@ def LoadMap(FileNameAgain):
                     Sprites.append(shopkeeper)
                 elif C == "^":
                     Sprites.append(woodenstairs)
+                elif C == "v":
+                    Sprites.append(woodenstairsdown)
             Map.append(Sprites)
     return Map
 
@@ -469,8 +471,12 @@ YOMI = pygame.image.load('YOMI.png')
 YOMI =  pygame.transform.scale(YOMI, (64, 64))
 box = pygame.image.load('box.png')
 box =  pygame.transform.scale(box, (64, 64))
-woodenstairs = pygame.image.load('stairs_wooden.png')
+bucketguy = pygame.image.load("bucketguy.png")
+bucketguy = pygame.transform.scale(bucketguy, (64, 64))
+woodenstairs = pygame.image.load('stairs_wooden_up.png')
 woodenstairs = pygame.transform.scale(woodenstairs, (64, 64))
+woodenstairsdown = pygame.image.load('stairs_wooden_down.png')
+woodenstairsdown = pygame.transform.scale(woodenstairsdown, (64, 64))
 shopkeeper = pygame.image.load('merchant.png')
 shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
 image_width, image_height = image.get_size()
@@ -488,11 +494,13 @@ NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper]
 YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
 ViolentFiles = [cashmoney, YOMI, box]
 StairsUplol = [woodenstairs]
+StairsDownlol = [woodenstairsdown]
 ShoppingFiles = [shopkeeper]
 BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper]
 with open("damageiscoolforhealth.json", "r") as f:
     ViolentwithCheese = json.load(f)
 DictionaryOfDeez = LoadDialouge("dialouge.json")
+CheatString = ""
 with open("dialougefight.json", "r") as f:
     DialougebutViolent = json.load(f)
 
@@ -557,6 +565,8 @@ while running:
             pygame.display.toggle_fullscreen()
     if Map[SpriteY][SpriteX] in StairsUplol:
         Map = LoadMap("stairs.txt")
+    if Map[SpriteY][SpriteX] in StairsDownlol:
+        Map = LoadMap("ConfusingBaseplate.txt")
     if SpriteX < len(Map[0]) - 1 and Map[SpriteY] [SpriteX + 1] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX + 1)
@@ -605,6 +615,17 @@ while running:
     #screen.blit(coolio2, imagep_coolio2)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
+            if event.unicode:
+                CheatString += event.unicode
+                CheatString = CheatString[-20:]
+                if "me1sw1nner" in CheatString:
+                    CoolBucks = 9000000
+                    CheatString = ""
+                elif "davestr1der" in CheatString:
+                    CoolBucks = -1
+                    CheatString = ""
+                elif "whenthe" in CheatString:
+                    ViolentwithCheese[-1]["health"] = 123456789101112131415
             if event.key == pygame.K_e and PersonalSpace == True:
                 if type(YapHolder) is list:
                     RipOffRugrats += 1
