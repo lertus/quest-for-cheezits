@@ -48,6 +48,16 @@
         "damage": [7, 8],
         "prob": [1, 2]
 
+    },
+    {
+
+        "name": "Bone hurting juice",
+        "desc": "ok maybe dont drink this",
+        "type": "item",
+        "icon": "bonehurtingjuice.png",
+        "buffs": [{"health": -100000}],
+        "duration": 10 
+
     }
 
 ]

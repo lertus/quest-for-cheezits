@@ -48,6 +48,54 @@ def LoadMap(FileNameAgain):
             Map.append(Sprites)
     return Map
 
+def MapToHomeLocations(ThisMap):
+    HomeLocations = []
+    for i, Row in enumerate(ThisMap):
+        LocationsRow = []
+        for j, Sprite in enumerate(Row):
+            if Sprite in SchmovinFiles:
+                LocationsRow.append((i, j))
+            else:
+                LocationsRow.append(None)
+        HomeLocations.append(LocationsRow)
+    return HomeLocations
+
+def Schmove(ThisMap, ThisBMap, HomeLocations):
+    for i, Row in enumerate(ThisMap):
+        for j, Sprite in enumerate(Row):
+            if Sprite in SchmovinFiles:
+                if random.random() < 0.95:
+                    continue
+                Home  = HomeLocations[i][j]
+                if random.random() < 0.5:
+                    if random.random() < 0.5:
+                        Newj = j + 1
+                    else:
+                        Newj = j - 1
+                    if abs(Home[1] - Newj) > 3:
+                        continue
+                    if ThisMap[i][Newj] in NuhUhFiles:
+                        continue
+                    ThisMap[i][Newj] = Sprite
+                    ThisMap[i][j] = ThisBMap[i][j]
+                    HomeLocations[i][Newj] = Home
+                    HomeLocations[i][j] = None
+                else:
+                    if random.random() < 0.5:
+                        Newi = i + 1
+                    else:
+                        Newi = i - 1
+                    if abs(Home[0] - Newi) > 3:
+                        continue
+                    if ThisMap[Newi][j] in NuhUhFiles:
+                        continue
+                    ThisMap[Newi][j] = Sprite
+                    ThisMap[i][j] = ThisBMap[i][j]
+                    HomeLocations[Newi][j] = Home
+                    HomeLocations[i][j] = None
+
+                    
+
 def LoadDialouge(FileTalkingName):
     DictionaryOfStupidity = {}
     with open(FileTalkingName, "r") as File:
@@ -414,7 +462,7 @@ def OpenInventory():
     while ShowingInventory == True:
         for event in pygame.event.get():   
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_TAB:
                     ShowingInventory = False
         
         
@@ -500,6 +548,9 @@ NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper,
 YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
 ViolentFiles = [cashmoney, YOMI, box, bucketguy]
 SchmovinFiles = [bucketguy]
+BaseplateHomeLocations = MapToHomeLocations(BaseplateMap)
+PizzaHomeLocations = MapToHomeLocations(PizzaMap)
+CurrentHomeLocations= BaseplateHomeLocations
 StairsUplol = [woodenstairs]
 StairsDownlol = [woodenstairsdown]
 ShoppingFiles = [shopkeeper]
@@ -538,6 +589,7 @@ while running:
    
 
     if Interaction == False:
+        Schmove(Map, BMap, CurrentHomeLocations)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and SpriteX > 0:
             image = WestImages[Frame % 4]
@@ -573,9 +625,11 @@ while running:
     if Map[SpriteY][SpriteX] in StairsUplol:
         Map = PizzaMap
         BMap = PizzaBMap
+        CurrentHomeLocations = PizzaHomeLocations
     if Map[SpriteY][SpriteX] in StairsDownlol:
         Map = BaseplateMap
         BMap = BaseplateBMap
+        CurrentHomeLocations = BaseplateHomeLocations
     if SpriteX < len(Map[0]) - 1 and Map[SpriteY] [SpriteX + 1] in YapperFiles:
         PersonalSpace = True
         YapHolder = GoogleIt(SpriteY, SpriteX + 1)
@@ -627,14 +681,20 @@ while running:
             if event.unicode:
                 CheatString += event.unicode
                 CheatString = CheatString[-20:]
-                if "me1sw1nner" in CheatString:
+                if "meiswinner" in CheatString:
                     CoolBucks = 9000000
                     CheatString = ""
-                elif "davestr1der" in CheatString:
+                elif "davestrider" in CheatString:
                     CoolBucks = -1
                     CheatString = ""
                 elif "whenthe" in CheatString:
                     ViolentwithCheese[-1]["health"] = 123456789101112131415
+                    CheatString = ""
+                elif "evilmunchkinman" in CheatString:
+                    with open("CoolItemAbilitys.json", "r") as file:
+                        ItemData = json.load(file)
+                    CheatString = ""
+                    Inventory.append(ItemData[-1])
             if event.key == pygame.K_e and PersonalSpace == True:
                 if type(YapHolder) is list:
                     RipOffRugrats += 1
@@ -684,7 +744,7 @@ while running:
                     StringHolder = YapHolder
             if event.key == pygame.K_m:
                 MapMaker()
-            if event.key == pygame.K_i:
+            if event.key == pygame.K_TAB:
                 OpenInventory()
             if event.key == pygame.K_DOWN and Interaction == True:
                 DialougeChoice += 1
