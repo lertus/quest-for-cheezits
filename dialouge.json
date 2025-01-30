@@ -60,6 +60,13 @@
         "y": 23,
         "dialouge": ["Ya lookin' for sumthin'?"]
 
+    },
+    {
+
+        "x": 62,
+        "y": 23,
+        "dialouge": ["ur gona get it"]
+
     }
 
 ]

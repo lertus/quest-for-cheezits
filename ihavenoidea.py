@@ -357,8 +357,14 @@ def LeFightCommence():
                                     if Inventory[i]["name"] == LETSGOGAMBLING["name"]:
                                         Inventory.pop(i)
                                         break
-                                ActiveBuffs  += LETSGOGAMBLING["buffs"]
-                                BuffDurations += [LETSGOGAMBLING["duration"] + 1] * len(LETSGOGAMBLING["buffs"])
+                                BuffApplied = False
+                                for Buff in LETSGOGAMBLING["buffs"]:
+                                    if "health" in Buff:
+                                        PlayerHp += Buff["health"]
+                                        BuffApplied = True
+                                if not BuffApplied:
+                                    ActiveBuffs += LETSGOGAMBLING["buffs"]
+                                    BuffDurations += [LETSGOGAMBLING["duration"] + 1] * len(LETSGOGAMBLING["buffs"])
             for Key in PlayerCooldown:
                 PlayerCooldown[Key] -= 1
             for i in range(len(BuffDurations)):
@@ -545,7 +551,7 @@ WestImages = LoadImages(WestFiles)
 SouthImages = LoadImages(SouthFiles)
 NorthImages = LoadImages(NorthFiles)
 NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
-YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper]
+YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
 ViolentFiles = [cashmoney, YOMI, box, bucketguy]
 SchmovinFiles = [bucketguy]
 BaseplateHomeLocations = MapToHomeLocations(BaseplateMap)
@@ -589,7 +595,7 @@ while running:
    
 
     if Interaction == False:
-        Schmove(Map, BMap, CurrentHomeLocations)
+        #Schmove(Map, BMap, CurrentHomeLocations)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and SpriteX > 0:
             image = WestImages[Frame % 4]
@@ -691,6 +697,11 @@ while running:
                     ViolentwithCheese[-1]["health"] = 123456789101112131415
                     CheatString = ""
                 elif "evilmunchkinman" in CheatString:
+                    with open("CoolItemAbilitys.json", "r") as file:
+                        ItemData = json.load(file)
+                    CheatString = ""
+                    Inventory.append(ItemData[-2])
+                elif "homestuckreference" in CheatString:
                     with open("CoolItemAbilitys.json", "r") as file:
                         ItemData = json.load(file)
                     CheatString = ""

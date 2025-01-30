@@ -58,6 +58,16 @@
         "buffs": [{"health": -100000}],
         "duration": 10 
 
+    },
+    {
+
+        "name": "Disciplining Broom",
+        "desc": "ur gonna get it pal",
+        "type": "blunt",
+        "icon": "Discipline.png",
+        "damage": [50, 25],
+        "prob": [2, 1]
+
     }
 
 ]

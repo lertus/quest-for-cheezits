@@ -97,6 +97,31 @@
 
     },
     {
+
+        "name": "bucketguy",
+        "health": 12,
+        "moves": [
+            {
+
+                "name": "smack",
+                "self": false,
+                "damage": [3, 1],
+                "prob": [1, 2]
+
+            },
+            {
+
+                "name": "soder",
+                "self": true,
+                "cooldown": 6,
+                "damage": [-2, -3],
+                "prob": [1, 2]
+
+            }
+        ]
+
+    },
+    {
         "name": "You",
         "health": 10,
         "moves": [
