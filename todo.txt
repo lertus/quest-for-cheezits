@@ -1,0 +1,4 @@
+next time: resize icons in new icon menu
+- also fix their positions
+- then need to draw the selection rectangle
+- and generally finish the new menu function
