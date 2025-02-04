@@ -80,6 +80,9 @@ def Schmove(ThisMap, ThisBMap, HomeLocations):
                     ThisMap[i][j] = ThisBMap[i][j]
                     HomeLocations[i][Newj] = Home
                     HomeLocations[i][j] = None
+                    if (i, j) in DictionaryOfDeez:
+                        DictionaryOfDeez[(i, Newj)] = DictionaryOfDeez[(i, j)]
+                        del DictionaryOfDeez[(i, j)] 
                 else:
                     if random.random() < 0.5:
                         Newi = i + 1
@@ -93,6 +96,9 @@ def Schmove(ThisMap, ThisBMap, HomeLocations):
                     ThisMap[i][j] = ThisBMap[i][j]
                     HomeLocations[Newi][j] = Home
                     HomeLocations[i][j] = None
+                    if (i, j) in DictionaryOfDeez:
+                        DictionaryOfDeez[(Newi, j)] = DictionaryOfDeez[(i, j)]
+                        del DictionaryOfDeez[(i, j)] 
 
                     
 
@@ -595,7 +601,7 @@ while running:
    
 
     if Interaction == False:
-        #Schmove(Map, BMap, CurrentHomeLocations)
+        Schmove(Map, BMap, CurrentHomeLocations)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and SpriteX > 0:
             image = WestImages[Frame % 4]

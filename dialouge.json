@@ -67,6 +67,20 @@
         "y": 23,
         "dialouge": ["ur gona get it"]
 
+    },
+    {
+
+        "x": 60,
+        "y": 27,
+        "dialouge": ["i feel angry 2day ufeelme"]
+
+    },
+    {
+
+        "x": 63,
+        "y": 26,
+        "dialouge": ["hii ^_^"]
+
     }
 
 ]
