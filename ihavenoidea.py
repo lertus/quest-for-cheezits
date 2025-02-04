@@ -152,10 +152,10 @@ def DrawTheFight(EnemyBIG, imageWHAT, Text2, PlayerHp, EnemyHp, Text3 = ""):
     Rect = Text.get_rect(center = ((64 * 11), 200))
     screen.blit(Text, Rect)
     Text = Font.render(f"Your health: {PlayerHp}", False, (0, 0, 0))
-    Rect = Text.get_rect(center = (0, 64))
+    Rect = Text.get_rect(center = (118, 64))
     screen.blit(Text, Rect)
     Text = Font.render(f"THE ENEMY'S health: {EnemyHp}", False, (0, 0, 0))
-    Rect = Text.get_rect(center = (0, 704))
+    Rect = Text.get_rect(center = (150, 704))
     screen.blit(Text, Rect)
 
 def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 0)):
@@ -263,7 +263,10 @@ def ShopTime():
                             PurchaceMessage = "Sorry pal, ya dont have enough."
                                     
 
-        
+def DrawNewMenu(AwesomeNumberThatIsTheIndex):
+    screen.blit(WeaponIcon, (724, 654))
+    screen.blit(ItemIcon, (748, 654))
+    
 
 def LeFightCommence():
     ActiveBuffs = []
@@ -341,7 +344,8 @@ def LeFightCommence():
                     PlayerMove.append(move)
             while ADecisionMade == False:
                 DrawTheFight(EnemyBIG, imageWHAT, " ", PlayerHp, EnemyHp)
-                DrawTheMenu(OkNiceMove, PlayerMove, TextX= 520, TextY= 470)
+                #DrawTheMenu(OkNiceMove, PlayerMove, TextX= 520, TextY= 470)
+                DrawNewMenu(0)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -356,21 +360,21 @@ def LeFightCommence():
                         elif event.key == pygame.K_e:
                             LETSGOGAMBLING = PlayerMove[OkNiceMove]
                             ADecisionMade = True
-                            if "cooldown" in LETSGOGAMBLING:
-                                PlayerCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
-                            if "type" in LETSGOGAMBLING and LETSGOGAMBLING["type"] == "item":
-                                for i in range(len(Inventory)):
-                                    if Inventory[i]["name"] == LETSGOGAMBLING["name"]:
-                                        Inventory.pop(i)
-                                        break
-                                BuffApplied = False
-                                for Buff in LETSGOGAMBLING["buffs"]:
-                                    if "health" in Buff:
-                                        PlayerHp += Buff["health"]
-                                        BuffApplied = True
-                                if not BuffApplied:
-                                    ActiveBuffs += LETSGOGAMBLING["buffs"]
-                                    BuffDurations += [LETSGOGAMBLING["duration"] + 1] * len(LETSGOGAMBLING["buffs"])
+            if "cooldown" in LETSGOGAMBLING:
+                PlayerCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
+            if "type" in LETSGOGAMBLING and LETSGOGAMBLING["type"] == "item":
+                for i in range(len(Inventory)):
+                    if Inventory[i]["name"] == LETSGOGAMBLING["name"]:
+                        Inventory.pop(i)
+                        break
+                BuffApplied = False
+                for Buff in LETSGOGAMBLING["buffs"]:
+                    if "health" in Buff:
+                        PlayerHp += Buff["health"]
+                        BuffApplied = True
+                if not BuffApplied:
+                    ActiveBuffs += LETSGOGAMBLING["buffs"]
+                    BuffDurations += [LETSGOGAMBLING["duration"] + 1] * len(LETSGOGAMBLING["buffs"])
             for Key in PlayerCooldown:
                 PlayerCooldown[Key] -= 1
             for i in range(len(BuffDurations)):
@@ -541,6 +545,12 @@ woodenstairsdown = pygame.image.load('stairs_wooden_down.png')
 woodenstairsdown = pygame.transform.scale(woodenstairsdown, (64, 64))
 shopkeeper = pygame.image.load('merchant.png')
 shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
+WeaponIcon = pygame.image.load('placeholdericon.png')
+WeaponIcon = pygame.transform.scale(WeaponIcon, (64, 64))
+ItemIcon = pygame.image.load('placeholdericon.png')
+ItemIcon = pygame.transform.scale(ItemIcon, (64, 64))
+NothingIcon = pygame.image.load('placeholdericon.png')
+NothingIcon = pygame.transform.scale(NothingIcon, (64, 64))
 image_width, image_height = image.get_size()
 Map = LoadMap("ConfusingBaseplate.txt")
 BaseplateMap = Map
@@ -598,7 +608,7 @@ while running:
 
     # Display image at the random position
     screen.fill((0, 0, 0))  # Fill the screen with black
-   
+    
 
     if Interaction == False:
         Schmove(Map, BMap, CurrentHomeLocations)
