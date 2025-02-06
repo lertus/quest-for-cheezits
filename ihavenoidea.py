@@ -264,9 +264,44 @@ def ShopTime():
                                     
 
 def DrawNewMenu(AwesomeNumberThatIsTheIndex):
-    screen.blit(WeaponIcon, (724, 654))
-    screen.blit(ItemIcon, (748, 654))
-    
+    Icon1x = 724
+    Icon2x = Icon1x + 76
+    Icony = 590
+    Rectanglex = Icon1x - 10 + 76 * AwesomeNumberThatIsTheIndex
+    Rectangley = Icony - 10
+    RectangleWidth = 64 + 20
+    screen.blit(WeaponIcon, (Icon1x, Icony))
+    screen.blit(ItemIcon, (Icon2x, Icony))
+    Rect = pygame.Rect(Rectanglex, Rectangley, RectangleWidth, RectangleWidth)
+    pygame.draw.rect(screen, (0, 0, 255), Rect, 3)
+
+def DrawSubMenu(Moves, OkNiceMove):
+    BackgroundsList = ["WeaponInventory.png"]
+    BackgroundImage = BackgroundsList[OkNiceMove]
+    ##################################################
+    BackgroundImage = pygame.image.load(BackgroundImage)
+    BackgroundImage = pygame.transform.scale(BackgroundImage, (1024, 768))
+    screen.blit(BackgroundImage, (0, 0))
+    CurrentY = 110
+    for Item in Moves[OkNiceMove]:
+        IconImage = pygame.image.load(Item["icon"])
+        IconImage= pygame.transform.scale(IconImage, (64, 64))
+        screen.blit(IconImage, [20, CurrentY])
+        #Text = Font.render(Item["name"], False, (0, 0, 0))
+        #Rect = Text.get_rect(topleft = (100, CurrentY))
+        #screen.blit(Text, Rect)
+        TextCooler(LinesofText=Item["name"].split("|"), TextColor=(0, 0, 0), TextPosition=(100, CurrentY))
+        TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(750, CurrentY))
+        CurrentY += 75
+    #screen.blit(, [15, 192])
+    pygame.display.flip()
+    ShowingInventory = True
+    while ShowingInventory == True:
+        for event in pygame.event.get():   
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_TAB:
+                    ShowingInventory = False
+    return False, 0
 
 def LeFightCommence():
     ActiveBuffs = []
@@ -327,39 +362,38 @@ def LeFightCommence():
             ADecisionMade = False
             OkNiceMove = 0
             PlayerMoveTemp = PlayerData["moves"].copy()
-            PlayerMove = []
+            PlayerMove = [[],[],[]]
             HasWeapons = False
             for Item in Inventory:
                 if Item["type"] == "blade" or Item["type"] == "blunt":
                     HasWeapons = True
                     Item["self"] = False
-                    PlayerMove.append(Item)
+                    PlayerMove[0].append(Item)
                 if Item["type"] == "item":
                     Item["self"] = False
-                    PlayerMove.append(Item)
-            if HasWeapons == True:
-                PlayerMoveTemp.pop(0)
+                    PlayerMove[1].append(Item)
+            #if HasWeapons == True:
+                #PlayerMoveTemp.pop(0)
             for move in PlayerMoveTemp:
                 if "cooldown" not in move or move["name"] not in PlayerCooldown or PlayerCooldown[move["name"]] <= 0:
-                    PlayerMove.append(move)
+                    PlayerMove[2].append(move)
             while ADecisionMade == False:
                 DrawTheFight(EnemyBIG, imageWHAT, " ", PlayerHp, EnemyHp)
                 #DrawTheMenu(OkNiceMove, PlayerMove, TextX= 520, TextY= 470)
-                DrawNewMenu(0)
+                DrawNewMenu(OkNiceMove)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_DOWN:
+                        if event.key == pygame.K_RIGHT:
                             OkNiceMove += 1
-                            if OkNiceMove >= len(PlayerMove):
-                                OkNiceMove = len(PlayerMove) - 1
-                        elif event.key == pygame.K_UP:
+                            if OkNiceMove >= 2 :
+                                OkNiceMove = 2 - 1
+                        elif event.key == pygame.K_LEFT:
                             OkNiceMove -= 1
                             if OkNiceMove <= 0:
                                 OkNiceMove = 0
                         elif event.key == pygame.K_e:
-                            LETSGOGAMBLING = PlayerMove[OkNiceMove]
-                            ADecisionMade = True
+                            LETSGOGAMBLING, ADecisionMade = DrawSubMenu(PlayerMove, OkNiceMove)
             if "cooldown" in LETSGOGAMBLING:
                 PlayerCooldown[LETSGOGAMBLING["name"]] = LETSGOGAMBLING["cooldown"] + 1
             if "type" in LETSGOGAMBLING and LETSGOGAMBLING["type"] == "item":
