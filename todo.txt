@@ -3,3 +3,7 @@ next time: resize icons in new icon menu
 ✓ also fix their positions
 ✓ then need to draw the selection rectangle
 - and generally finish the new menu function
+- - move things around a bit
+- - add new inventory backgrounds and menu buttons
+- - add an exit option
+- - generally make the submenu act like a menu
