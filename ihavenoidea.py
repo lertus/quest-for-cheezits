@@ -266,42 +266,61 @@ def ShopTime():
 def DrawNewMenu(AwesomeNumberThatIsTheIndex):
     Icon1x = 724
     Icon2x = Icon1x + 76
+    Icon3x = Icon2x + 76
     Icony = 590
     Rectanglex = Icon1x - 10 + 76 * AwesomeNumberThatIsTheIndex
     Rectangley = Icony - 10
     RectangleWidth = 64 + 20
     screen.blit(WeaponIcon, (Icon1x, Icony))
     screen.blit(ItemIcon, (Icon2x, Icony))
+    screen.blit(NothingIcon, (Icon3x, Icony))
     Rect = pygame.Rect(Rectanglex, Rectangley, RectangleWidth, RectangleWidth)
     pygame.draw.rect(screen, (0, 0, 255), Rect, 3)
 
 def DrawSubMenu(Moves, OkNiceMove):
-    BackgroundsList = ["WeaponInventory.png"]
+    BackgroundsList = ["WeaponInventory.png", "doggo.png", "placeholder.png"]
     BackgroundImage = BackgroundsList[OkNiceMove]
-    ##################################################
     BackgroundImage = pygame.image.load(BackgroundImage)
     BackgroundImage = pygame.transform.scale(BackgroundImage, (1024, 768))
-    screen.blit(BackgroundImage, (0, 0))
-    CurrentY = 110
-    for Item in Moves[OkNiceMove]:
-        IconImage = pygame.image.load(Item["icon"])
-        IconImage= pygame.transform.scale(IconImage, (64, 64))
-        screen.blit(IconImage, [20, CurrentY])
-        #Text = Font.render(Item["name"], False, (0, 0, 0))
-        #Rect = Text.get_rect(topleft = (100, CurrentY))
-        #screen.blit(Text, Rect)
-        TextCooler(LinesofText=Item["name"].split("|"), TextColor=(0, 0, 0), TextPosition=(100, CurrentY))
-        TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(750, CurrentY))
-        CurrentY += 75
-    #screen.blit(, [15, 192])
-    pygame.display.flip()
     ShowingInventory = True
+    SelectedItem = 0
     while ShowingInventory == True:
+        screen.blit(BackgroundImage, (0, 0))
+        CurrentY = 185
+        for i, Item in enumerate(Moves[OkNiceMove]):
+            IconImage = pygame.image.load(Item["icon"])
+            IconImage= pygame.transform.scale(IconImage, (64, 64))
+            screen.blit(IconImage, [50, CurrentY])
+            #Text = Font.render(Item["name"], False, (0, 0, 0))
+            #Rect = Text.get_rect(topleft = (100, CurrentY))
+            #screen.blit(Text, Rect)
+            TextCooler(LinesofText=Item["name"].split("|"), TextColor=(0, 0, 0), TextPosition=(130, CurrentY))
+            TextCooler(LinesofText=Item["desc"].split("|"), TextColor=(0, 0, 0), TextPosition=(750, CurrentY))
+            CurrentY += 75
+        TextCooler(["Exit menu"], (0, 0, 0), (130, 110))
+        TextCooler(["*"], (0, 0, 0), (35, 110 + 75 * SelectedItem))
+        #screen.blit(, [15, 192])
+        pygame.display.flip()
         for event in pygame.event.get():   
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     ShowingInventory = False
-    return False, 0
+                elif event.key == pygame.K_DOWN:
+                    SelectedItem += 1
+                    print("Down key pressed.")
+                    if SelectedItem > len(Moves[OkNiceMove]):
+                        SelectedItem = len(Moves[OkNiceMove])
+                elif event.key == pygame.K_UP:
+                    SelectedItem -= 1
+                    print("Up key pressed.")
+                    if SelectedItem < 0:
+                        SelectedItem = 0
+                elif event.key == pygame.K_e:
+                    if SelectedItem == 0:
+                        return None, False
+                    else:
+                        return Moves[OkNiceMove][SelectedItem - 1], True
+    return None, False
 
 def LeFightCommence():
     ActiveBuffs = []
@@ -386,8 +405,8 @@ def LeFightCommence():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RIGHT:
                             OkNiceMove += 1
-                            if OkNiceMove >= 2 :
-                                OkNiceMove = 2 - 1
+                            if OkNiceMove >= 3 :
+                                OkNiceMove = 2
                         elif event.key == pygame.K_LEFT:
                             OkNiceMove -= 1
                             if OkNiceMove <= 0:

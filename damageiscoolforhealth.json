@@ -127,31 +127,39 @@
         "moves": [
             {
                 "name": "Smack",
+                "desc": "get smecced idiot",
                 "self": false,
                 "damage": [3, 2],
+                "icon": "smack.png",
                 "prob": [5, 5]
 
             },
             {
                 "name": "Scream",
+                "desc": "AAAAAA",
                 "sound":"playersounds/AAARRGG.mp3",
                 "self": false,
                 "damage": [2],
+                "icon": "scream.png",
                 "prob": [1]
             },
             {
                 "name": "Heal Up G",
+                "desc": "who needs doctors?",
                 "self": true,
                 "cooldown": 5,
                 "damage": [-2, -3],
+                "icon": "health.png",
                 "prob": [5, 2]
             },
             {
                 "name": "GUN",
+                "desc": "this is canon.",
                 "sound": "playersounds/GUN.wav",
                 "self": false,
                 "cooldown": 7,
                 "damage": [4],
+                "icon": "gun.png",
                 "prob": [1]
                 
                 
