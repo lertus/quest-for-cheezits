@@ -374,9 +374,11 @@ def LeFightCommence():
         if EnemyHp <= 0:
             Text2 = f"{EnemyData['name']} has fallen. What a dingus."
             JustBreakItUpYouTwo = False
+            Outcome = True
         elif PlayerHp <= 0:
             Text2 = f"You have fallen. Dingus."
             JustBreakItUpYouTwo = False
+            Outcome = False
         elif MyTurnYipee == True:
             ADecisionMade = False
             OkNiceMove = 0
@@ -499,6 +501,7 @@ def LeFightCommence():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     WaitinForAKey = False
+    return Outcome
 
     
 def TextCooler(LinesofText, TextColor, TextPosition):
@@ -560,7 +563,7 @@ def MapMaker():
 # Initialize PyGame
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load("noors.wav")
+pygame.mixer.music.load("nocopyrighttrust.mp3")
 pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(-1)
 # Set up display
@@ -656,7 +659,21 @@ Frame = 0
 RipOffRugrats = -1
 StringHolder = " "
 
-
+BBBOX = pygame.Rect(0, 0, 1024, 768)
+pygame.draw.rect(screen, (127, 127, 127), BBBOX)
+TitleImage = pygame.image.load("placeholderlogo.png")
+TitleImage = pygame.transform.scale(TitleImage, (128 * 3, 64 * 3))
+screen.blit(TitleImage, (320, 30))
+pygame.display.flip()
+WaitinForAKey = True
+while WaitinForAKey == True:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            WaitinForAKey = False
+pygame.mixer.music.stop()
+pygame.mixer.music.load("noors.wav")
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
 while running:
 
     # Display image at the random position
@@ -783,7 +800,9 @@ while running:
                         StringHolder = " "
                         RipOffRugrats = -1
                         if THEEnemy in ViolentFiles:
-                            LeFightCommence()
+                            Outcome = LeFightCommence()
+                            if Outcome == True:
+                                Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load("noors.wav")
                             pygame.mixer.music.set_volume(0.2)
@@ -804,7 +823,9 @@ while running:
                             StringHolder = " "
                             RipOffRugrats = -1
                             if THEEnemy in ViolentFiles:
-                                LeFightCommence()
+                                Outcome = LeFightCommence()
+                                if Outcome == True:
+                                    Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
                                 pygame.mixer.music.stop()
                                 pygame.mixer.music.load("noors.wav")
                                 pygame.mixer.music.set_volume(0.2)

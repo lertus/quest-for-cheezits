@@ -2,6 +2,7 @@
     {
         "name": "cashmoney",
         "health": 20,
+        "loot": [10, "Gold Knuckles"],
         "moves": [
             {
                 "name": "Cha-Ching",
@@ -38,6 +39,7 @@
     {
         "name": "YOMI",
         "health": 50,
+        "loot": [20, "Shakira Fighting Book"],
         "moves": [
             {
                 "name": "Slash",
@@ -100,6 +102,7 @@
 
         "name": "bucketguy",
         "health": 12,
+        "loot": [2, "Really cool cookie|from grandma's"],
         "moves": [
             {
 

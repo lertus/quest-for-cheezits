@@ -45,10 +45,28 @@
         "desc": "GRAAHHHH!!!",
         "type": "blunt",
         "icon": "Placeholder.png",
-        "damage": [7, 8],
+        "damage": [9, 12],
         "prob": [1, 2]
 
     },
+    {
+
+        "name": "Shakira Fighting Book",
+        "desc": "Shakira, Shakira.",
+        "type": "item",
+        "buffs": [{"damage": 2}],
+        "icon": "Placeholder.png"
+
+    },
+    {
+
+        "name": "Gold Knuckles",
+        "desc": "Oo, shiny!",
+        "type": "blunt",
+        "damage": [6, 8],
+        "prob": [2, 1]
+
+    }
     {
 
         "name": "Bone hurting juice",
