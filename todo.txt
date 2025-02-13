@@ -1,3 +1,7 @@
 [✓]
 next time: make animations for both enemys and player(s)
 - add loot system
+- - we have already put loot descriptions in the enemy JSON file
+- - loot is a list where integers are cash and strings refer to items in the item JSON
+- - next job is to actually add the loot to your wallet/inventory upon victory
+- - (probably do this at the end of the fight function)
