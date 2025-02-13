@@ -661,9 +661,8 @@ StringHolder = " "
 
 BBBOX = pygame.Rect(0, 0, 1024, 768)
 pygame.draw.rect(screen, (127, 127, 127), BBBOX)
-TitleImage = pygame.image.load("placeholderlogo.png")
-TitleImage = pygame.transform.scale(TitleImage, (128 * 3, 64 * 3))
-screen.blit(TitleImage, (320, 30))
+TitleImage = pygame.image.load("titlescreen.png")
+screen.blit(TitleImage, (0, 0))
 pygame.display.flip()
 WaitinForAKey = True
 while WaitinForAKey == True:
