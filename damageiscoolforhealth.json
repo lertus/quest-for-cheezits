@@ -57,13 +57,14 @@
             {
                 "name": "Crash",
                 "self": false,
-                "damage": [8, 1],
+                "damage": [4, 1],
                 "prob": [1, 10]
             },
             {
                 "name": "Gain",
                 "self": true,
                 "damage": [-5],
+                "cooldown": 3,
                 "prob": [1]
                 
                 

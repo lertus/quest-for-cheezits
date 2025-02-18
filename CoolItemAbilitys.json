@@ -64,7 +64,8 @@
         "desc": "Oo, shiny!",
         "type": "blunt",
         "damage": [6, 8],
-        "prob": [2, 1]
+        "prob": [2, 1],
+        "icon": "Placeholder.png"
 
     },
     {

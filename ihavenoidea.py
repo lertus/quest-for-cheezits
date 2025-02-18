@@ -323,6 +323,7 @@ def DrawSubMenu(Moves, OkNiceMove):
     return None, False
 
 def LeFightCommence():
+    global CoolBucks
     ActiveBuffs = []
     BuffDurations = []
     imageWHAT = pygame.image.load('You.png')
@@ -341,7 +342,7 @@ def LeFightCommence():
                         pygame.draw.rect(screen, (0, 0, 0), BBBOX)
             pygame.display.flip()
             pygame.time.delay(2)
-    pygame.mixer.music.load("Tycoon.mp3")
+    pygame.mixer.music.load("battlemusic.mp3")
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
     EnemyIndex = -1
@@ -375,6 +376,20 @@ def LeFightCommence():
             Text2 = f"{EnemyData['name']} has fallen. What a dingus."
             JustBreakItUpYouTwo = False
             Outcome = True
+            LootCash = 0
+            LootIcon = None
+            if "loot" in EnemyData:
+                for Loot in EnemyData["loot"]:
+                    if type(Loot) == int:
+                        CoolBucks += Loot
+                        LootCash = Loot
+                    elif type(Loot) == str:
+                        with open("CoolItemAbilitys.json", "r") as file:
+                            ItemData = json.load(file)
+                        for Item in ItemData:
+                            if Item["name"] == Loot:
+                                Inventory.append(Item)
+                                LootIcon = Item["icon"]
         elif PlayerHp <= 0:
             Text2 = f"You have fallen. Dingus."
             JustBreakItUpYouTwo = False
@@ -496,6 +511,24 @@ def LeFightCommence():
         DrawTheFight(EnemyBIG, imageWHAT, Text2, PlayerHp, EnemyHp, Text3)
         pygame.display.flip()
         #pygame.time.delay(1000)
+        WaitinForAKey = True
+        while WaitinForAKey == True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    WaitinForAKey = False
+    if Outcome == True:
+        BBBOX = pygame.Rect(0, 0, 1024, 768)
+        pygame.draw.rect(screen, (127, 127, 127), BBBOX)
+        VictoryImage = pygame.image.load("victoryresults.png")
+        screen.blit(VictoryImage, (0, 0))
+        IconImage = pygame.image.load(LootIcon)
+        IconImage= pygame.transform.scale(IconImage, (200, 200))
+        screen.blit(IconImage, [400, 80])
+        LootString = f"You got {LootCash} CoolBucks! please dont waste them bro"
+        Text = Font.render(LootString, False, (255, 255, 255))
+        Rect = Text.get_rect(topleft = (0, 740))
+        screen.blit(Text, Rect)
+        pygame.display.flip()
         WaitinForAKey = True
         while WaitinForAKey == True:
             for event in pygame.event.get():
