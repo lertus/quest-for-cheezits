@@ -101,6 +101,42 @@
     },
     {
 
+        "name": "lertus, the creator of COOL",
+        "health": 99,
+        "loot": [777, "Hoss"],
+        "moves": [
+
+            {
+
+                "name": "Hoss",
+                "self": false,
+                "damage": [10, 8],
+                "prob": [5, 5]
+
+            },
+            {
+
+                "name": "helth :)",
+                "self": true,
+                "damage": [-5, -4],
+                "prob": [5, 5]
+
+
+            },
+            {
+
+                "name": "idk lol",
+                "self": false,
+                "damage": [7, 8, 9],
+                "prob": [1, 2, 3]
+
+            }
+
+        ]
+
+    },
+    {
+
         "name": "bucketguy",
         "health": 12,
         "loot": [2, "Really cool cookie|from grandma's"],
@@ -160,6 +196,7 @@
                 "name": "GUN",
                 "desc": "this is canon.",
                 "sound": "playersounds/GUN.wav",
+                "anim": ["cow.png", "placeholder.png"],
                 "self": false,
                 "cooldown": 7,
                 "damage": [4],

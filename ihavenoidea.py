@@ -507,10 +507,20 @@ def LeFightCommence():
         if "sound" in LETSGOGAMBLING:
             AttackSound = pygame.mixer.Sound(LETSGOGAMBLING["sound"])
             AttackSound.play()
+        if "anim" in LETSGOGAMBLING:
+            for Frame in LETSGOGAMBLING["anim"]:
+                TempFrame = pygame.image.load(Frame)
+                TempFrame = pygame.transform.scale(TempFrame, (256, 256))
+                if MyTurnYipee:    
+                    DrawTheFight(EnemyBIG, TempFrame, Text2, PlayerHp, EnemyHp, Text3)
+                else:
+                    DrawTheFight(TempFrame, imageWHAT, Text2, PlayerHp, EnemyHp, Text3)
+                pygame.display.flip()
+                pygame.time.delay(1000)
+        else:
+            DrawTheFight(EnemyBIG, imageWHAT, Text2, PlayerHp, EnemyHp, Text3)
+            pygame.display.flip()
         MyTurnYipee = not MyTurnYipee
-        DrawTheFight(EnemyBIG, imageWHAT, Text2, PlayerHp, EnemyHp, Text3)
-        pygame.display.flip()
-        #pygame.time.delay(1000)
         WaitinForAKey = True
         while WaitinForAKey == True:
             for event in pygame.event.get():
@@ -628,6 +638,8 @@ box = pygame.image.load('box.png')
 box =  pygame.transform.scale(box, (64, 64))
 bucketguy = pygame.image.load("bucketguy.png")
 bucketguy = pygame.transform.scale(bucketguy, (64, 64))
+lertusmcglertus = pygame.image.load("placeholder.png")
+lertusmcglertus = pygame.transform.scale(lertusmcglertus, (64, 64))
 woodenstairs = pygame.image.load('stairs_wooden_up.png')
 woodenstairs = pygame.transform.scale(woodenstairs, (64, 64))
 woodenstairsdown = pygame.image.load('stairs_wooden_down.png')
@@ -656,8 +668,9 @@ WestImages = LoadImages(WestFiles)
 SouthImages = LoadImages(SouthFiles)
 NorthImages = LoadImages(NorthFiles)
 NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
-YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
-ViolentFiles = [cashmoney, YOMI, box, bucketguy]
+YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy, lertusmcglertus]
+ViolentFiles = [cashmoney, YOMI, box, lertusmcglertus, bucketguy]
+CheaterFiles = False
 SchmovinFiles = [bucketguy]
 BaseplateHomeLocations = MapToHomeLocations(BaseplateMap)
 PizzaHomeLocations = MapToHomeLocations(PizzaMap)
@@ -778,6 +791,10 @@ while running:
         THEEnemy = Map[SpriteY - 1][SpriteX]
         THEEnemyX = SpriteX
         THEEnemyY = SpriteY - 1
+    elif CheaterFiles:
+        PersonalSpace = True
+        YapHolder = GoogleIt(-20, -4)
+        THEEnemy = lertusmcglertus
     else:
         PersonalSpace = False
     if SpriteX > 12:
@@ -824,6 +841,9 @@ while running:
                         ItemData = json.load(file)
                     CheatString = ""
                     Inventory.append(ItemData[-1])
+                elif "iamuptonogood" in CheatString:
+                    CheaterFiles = True
+                        
             if event.key == pygame.K_e and PersonalSpace == True:
                 if type(YapHolder) is list:
                     RipOffRugrats += 1
@@ -833,7 +853,9 @@ while running:
                         RipOffRugrats = -1
                         if THEEnemy in ViolentFiles:
                             Outcome = LeFightCommence()
-                            if Outcome == True:
+                            if CheaterFiles:
+                                CheaterFiles = False
+                            elif Outcome == True:
                                 Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load("noors.wav")
@@ -856,7 +878,9 @@ while running:
                             RipOffRugrats = -1
                             if THEEnemy in ViolentFiles:
                                 Outcome = LeFightCommence()
-                                if Outcome == True:
+                                if CheaterFiles:
+                                    CheaterFiles = False
+                                elif Outcome == True:
                                     Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
                                 pygame.mixer.music.stop()
                                 pygame.mixer.music.load("noors.wav")

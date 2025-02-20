@@ -81,6 +81,13 @@
         "y": 26,
         "dialouge": ["hii ^_^"]
 
+    },
+    {
+
+        "x": -4,
+        "y": -20,
+        "dialouge": ["..", "You have no idea whats going on, do you?"]
+
     }
 
 ]
