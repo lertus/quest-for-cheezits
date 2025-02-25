@@ -2,3 +2,6 @@ X [✓]
 animations are done
 next up: need to add "Hoss" into items JSON
 then need to decide what else we want to do
+- did some tweaks to dialogue box
+- still need to do menu dialogue on overworld
+- can start on that Wednesday
