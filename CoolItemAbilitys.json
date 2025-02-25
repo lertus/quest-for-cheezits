@@ -65,7 +65,17 @@
         "type": "blunt",
         "damage": [6, 8],
         "prob": [2, 1],
-        "icon": "Placeholder.png"
+        "icon": "goldknuckles.png"
+
+    },
+    {
+
+        "name": "Hoss",
+        "desc": "Tiny yet mighty.",
+        "type": "blunt",
+        "damage": [25, 12],
+        "prob": [2, 1],
+        "icon": "hoss.png"
 
     },
     {

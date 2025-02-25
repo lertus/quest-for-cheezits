@@ -638,7 +638,7 @@ box = pygame.image.load('box.png')
 box =  pygame.transform.scale(box, (64, 64))
 bucketguy = pygame.image.load("bucketguy.png")
 bucketguy = pygame.transform.scale(bucketguy, (64, 64))
-lertusmcglertus = pygame.image.load("placeholder.png")
+lertusmcglertus = pygame.image.load("lertus.png")
 lertusmcglertus = pygame.transform.scale(lertusmcglertus, (64, 64))
 woodenstairs = pygame.image.load('stairs_wooden_up.png')
 woodenstairs = pygame.transform.scale(woodenstairs, (64, 64))
@@ -700,7 +700,7 @@ xSpeed = 64
 ySpeed = 64
 Interaction = False
 PersonalSpace = False
-Font = pygame.font.Font(None, 36)
+Font = pygame.font.Font("ARCADE_N.TTF", 20)
 Frame = 0
 RipOffRugrats = -1
 StringHolder = " "
@@ -915,22 +915,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     if Interaction == True:
+        Box = pygame.Rect(15, 497, 994, 248)
+        pygame.draw.rect(screen, (0, 0, 0), Box)
+        DialougeCharacter = pygame.transform.scale(THEEnemy, (250, 250))
+        screen.blit(DialougeCharacter, (30, 497))
         if type(StringHolder) is list and len(StringHolder) > 2:
-            Box = pygame.Rect(384, 256, 256, 256)
-            pygame.draw.rect(screen, (0, 0, 0), Box)
             DrawTheMenu(DialougeChoice, StringHolder[0 :: 2], TextX = 512, TextY = 320, TextColor = (255, 255, 255))
         elif type(StringHolder) is list:
-            Text = Font.render(StringHolder[0], False, (255, 255, 255))
-            Rect = Text.get_rect(center = (512, 384))
-            Box = Rect.inflate(20, 20)
-            pygame.draw.rect(screen, (0, 0, 0), Box)
-            screen.blit(Text, Rect)
+            TextCooler(StringHolder[0].split("|"), (255, 255, 255), (300, 512))
         else:
-            Text = Font.render(StringHolder, False, (255, 255, 255))
-            Rect = Text.get_rect(center = (512, 384))
-            Box = Rect.inflate(20, 20)
-            pygame.draw.rect(screen, (0, 0, 0), Box)
-            screen.blit(Text, Rect)
+            TextCooler(StringHolder.split("|"), (255, 255, 255), (300, 512))
     pygame.display.flip()  # Update the display
     pygame.time.delay(100)  # Delay to prevent using too much CPU
 

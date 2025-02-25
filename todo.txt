@@ -1,4 +1,4 @@
-[✓]
+X [✓]
 animations are done
 next up: need to add "Hoss" into items JSON
 then need to decide what else we want to do
