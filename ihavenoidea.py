@@ -3,6 +3,15 @@ import random
 import time
 import json
 
+def apply_grayscale_filter(surface):
+    arr = pygame.surfarray.pixels3d(surface)
+    grayscale_values = arr[:, :, 0] * 0.3 + arr[:, :, 1] * 0.59 + arr[:, :, 2] * 0.11
+    arr[:, :, 0] = grayscale_values
+    arr[:, :, 1] = grayscale_values
+    arr[:, :, 2] = grayscale_values
+    del arr  # Unlock the surface
+    return surface
+
 def LoadImages(FileNamez):
     Images = []
     for F in FileNamez:
@@ -685,6 +694,7 @@ with open("damageiscoolforhealth.json", "r") as f:
     ViolentwithCheese = json.load(f)
 DictionaryOfDeez = LoadDialouge("dialouge.json")
 CheatString = ""
+DeadLol = False
 with open("dialougefight.json", "r") as f:
     DialougebutViolent = json.load(f)
 
@@ -859,6 +869,8 @@ while running:
                                 CheaterFiles = False
                             elif Outcome == True:
                                 Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
+                            if Outcome == False:
+                                DeadLol = True
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load("noors.wav")
                             pygame.mixer.music.set_volume(0.2)
@@ -884,6 +896,8 @@ while running:
                                     CheaterFiles = False
                                 elif Outcome == True:
                                     Map[THEEnemyY][THEEnemyX] = BMap[THEEnemyY][THEEnemyX]
+                                if Outcome == False:
+                                    DeadLol = True
                                 pygame.mixer.music.stop()
                                 pygame.mixer.music.load("noors.wav")
                                 pygame.mixer.music.set_volume(0.2)
@@ -927,7 +941,15 @@ while running:
             TextCooler(StringHolder[0].split("|"), (255, 255, 255), (300, 512))
         else:
             TextCooler(StringHolder.split("|"), (255, 255, 255), (300, 512))
+    if DeadLol == True:
+        ScreenTemp = screen.copy()
+        apply_grayscale_filter(ScreenTemp)
+        screen.blit(ScreenTemp, (0, 0))
     pygame.display.flip()  # Update the display
-    pygame.time.delay(100)  # Delay to prevent using too much CPU
+    if DeadLol == True:
+        pygame.time.delay(200)
+        
+    else:
+        pygame.time.delay(100)  # Delay to prevent using too much CPU
 
 pygame.quit()
