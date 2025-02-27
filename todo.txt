@@ -1,7 +1,6 @@
 X [✓]
 animations are done
-next up: need to add "Hoss" into items JSON
-then need to decide what else we want to do
-- did some tweaks to dialogue box
-- still need to do menu dialogue on overworld
-- can start on that Wednesday
+✓ next up: need to add "Hoss" into items JSON
+✓ dialogue box updates are done
+next up: fix virtual environment so we can install numpy and test the grayscale filter
+then add a healer
