@@ -158,7 +158,7 @@ def DrawTheFight(EnemyBIG, imageWHAT, Text2, PlayerHp, EnemyHp, Text3 = ""):
     Rect = Text.get_rect(center = (150, 704))
     screen.blit(Text, Rect)
 
-def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 0)):
+def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 0), TextFont = None):
     for i, Move in enumerate(Moves):
         if type(Move) is dict:
             Text2 = Move["name"]
@@ -171,11 +171,12 @@ def DrawTheMenu(OkNiceMove, Moves, TextY = 512, TextX = 576, TextColor = (0, 0, 
         #Text = Font.render(Text2, False, TextColor)
         #Rect = Text.get_rect(topleft = (TextX, TextY))
         #screen.blit(Text, Rect)
-        TextCooler(LinesofText=Text2.split("|"), TextColor=TextColor, TextPosition=(TextX, TextY))
+        TextCooler(LinesofText=Text2.split("|"), TextColor=TextColor, TextPosition=(TextX, TextY), TextFont = TextFont)
         TextY += 64
 
 
 def ShopTime():
+    FontSmaller = pygame.font.Font("ARCADE_N.TTF", 10)
     global CoolBucks
     with open("CoolShop.json", "r") as file:
         ShopData = json.load(file)
@@ -228,7 +229,7 @@ def ShopTime():
             pygame.draw.rect(screen, (0, 0, 0), Box)
             screen.blit(Text, Rect)
         else:
-            DrawTheMenu(Menu, ItemWITHPrices, TextX = 20, TextY = 120, TextColor = (255, 255, 255))
+            DrawTheMenu(Menu, ItemWITHPrices, TextX = 20, TextY = 120, TextColor = (255, 255, 255), TextFont = FontSmaller)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -547,10 +548,12 @@ def LeFightCommence():
     return Outcome
 
     
-def TextCooler(LinesofText, TextColor, TextPosition):
+def TextCooler(LinesofText, TextColor, TextPosition, TextFont = None):
+    if TextFont is None:
+        TextFont = Font
     Yoffset = 0
     for Lines in LinesofText:
-        Text = Font.render(Lines, False, TextColor)
+        Text = TextFont.render(Lines, False, TextColor)
         Rect = Text.get_rect(topleft = (TextPosition[0], TextPosition[1] + Yoffset))
         Yoffset += 20
         screen.blit(Text, Rect)
@@ -582,7 +585,6 @@ def OpenInventory():
         
         
 def GoogleIt(y, x):
-    print(y, x)
     try:
         Yap = DictionaryOfDeez[(y, x)]
     except:
@@ -836,14 +838,14 @@ while running:
                         ItemData = json.load(file)
                     CheatString = ""
                     Inventory.append(ItemData[-2])
-                elif "homestuckreference" in CheatString:
+                elif "pneumonoultramicroscopicsilicovolcanoconiosis" in CheatString:
                     with open("CoolItemAbilitys.json", "r") as file:
                         ItemData = json.load(file)
                     CheatString = ""
                     Inventory.append(ItemData[-1])
                 elif "iamuptonogood" in CheatString:
                     CheaterFiles = True
-                        
+                        #>:)
             if event.key == pygame.K_e and PersonalSpace == True:
                 if type(YapHolder) is list:
                     RipOffRugrats += 1
@@ -905,8 +907,8 @@ while running:
                 OpenInventory()
             if event.key == pygame.K_DOWN and Interaction == True:
                 DialougeChoice += 1
-                if DialougeChoice >= len(StringHolder) / 2:
-                    DialougeChoice = len(StringHolder) / 2 - 1
+                if DialougeChoice >= len(StringHolder) // 2:
+                    DialougeChoice = len(StringHolder) // 2 - 1
             if event.key == pygame.K_UP and Interaction == True:
                 DialougeChoice -= 1
                 if DialougeChoice < 0:
@@ -916,11 +918,11 @@ while running:
             running = False
     if Interaction == True:
         Box = pygame.Rect(15, 497, 994, 248)
-        pygame.draw.rect(screen, (0, 0, 0), Box)
+        pygame.draw.rect(screen, (64, 64, 64), Box)
         DialougeCharacter = pygame.transform.scale(THEEnemy, (250, 250))
         screen.blit(DialougeCharacter, (30, 497))
         if type(StringHolder) is list and len(StringHolder) > 2:
-            DrawTheMenu(DialougeChoice, StringHolder[0 :: 2], TextX = 512, TextY = 320, TextColor = (255, 255, 255))
+            DrawTheMenu(DialougeChoice, StringHolder[0 :: 2], TextX = 300, TextY = 512, TextColor = (255, 255, 255))
         elif type(StringHolder) is list:
             TextCooler(StringHolder[0].split("|"), (255, 255, 255), (300, 512))
         else:

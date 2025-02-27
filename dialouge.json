@@ -37,7 +37,7 @@
 
         "y": 17,
         "x": 64,
-        "dialouge": ["wassup.", "im coolio1, the og", "tell the people that i never had i cat|and im still here.", ["Sure.", 4, "No lol", 5], ["k thanks", 6], ["im coming for you", 7]]
+        "dialouge": ["wassup.", "im coolio1, the og", "tell the people that i never had|a cat and im still here.", ["Sure.", 4, "No lol", 5], ["k thanks", 6], ["im coming for you", 7]]
 
     },
     {
@@ -86,7 +86,7 @@
 
         "x": -4,
         "y": -20,
-        "dialouge": ["..", "You have no idea whats going on, do you?"]
+        "dialouge": ["..", "You have no idea whats going|on, do you?"]
 
     }
 
