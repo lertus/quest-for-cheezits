@@ -2,5 +2,6 @@ X [✓]
 animations are done
 ✓ next up: need to add "Hoss" into items JSON
 ✓ dialogue box updates are done
-next up: fix virtual environment so we can install numpy and test the grayscale filter
-then add a healer
+✓ next up: fix virtual environment so we can install numpy and test the grayscale filter
+✓ then add a healer
+next up: brainstorm new features to add
