@@ -54,6 +54,8 @@ def LoadMap(FileNameAgain):
                     Sprites.append(woodenstairsdown)
                 elif C == ":":
                     Sprites.append(bucketguy)
+                elif C == "∞":
+                    Sprites.append(coolber)
             Map.append(Sprites)
     return Map
 
@@ -657,6 +659,8 @@ woodenstairsdown = pygame.image.load('stairs_wooden_down.png')
 woodenstairsdown = pygame.transform.scale(woodenstairsdown, (64, 64))
 shopkeeper = pygame.image.load('merchant.png')
 shopkeeper =  pygame.transform.scale(shopkeeper, (64, 64))
+coolber = pygame.image.load('flubberbutcool.png')
+coolber =  pygame.transform.scale(coolber, (64, 64))
 WeaponIcon = pygame.image.load('placeholdericon.png')
 WeaponIcon = pygame.transform.scale(WeaponIcon, (64, 64))
 ItemIcon = pygame.image.load('placeholdericon.png')
@@ -678,10 +682,11 @@ EastImages = LoadImages(EastFiles)
 WestImages = LoadImages(WestFiles)
 SouthImages = LoadImages(SouthFiles)
 NorthImages = LoadImages(NorthFiles)
-NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy]
-YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy, lertusmcglertus]
+NuhUhFiles = [coolio2, void1, wallnt, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy, coolber]
+YapperFiles = [coolio2, cashmoney, coolio1, YOMI, box, shopkeeper, bucketguy, lertusmcglertus, coolber]
 ViolentFiles = [cashmoney, YOMI, box, lertusmcglertus, bucketguy]
 CheaterFiles = False
+HealerFiles = [coolber]
 SchmovinFiles = [bucketguy]
 BaseplateHomeLocations = MapToHomeLocations(BaseplateMap)
 PizzaHomeLocations = MapToHomeLocations(PizzaMap)
@@ -689,7 +694,7 @@ CurrentHomeLocations= BaseplateHomeLocations
 StairsUplol = [woodenstairs]
 StairsDownlol = [woodenstairsdown]
 ShoppingFiles = [shopkeeper]
-BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper, bucketguy]
+BGNEEDEDFiles = [coolio2, coolio1, cashmoney, YOMI, box, shopkeeper, bucketguy, coolber]
 with open("damageiscoolforhealth.json", "r") as f:
     ViolentwithCheese = json.load(f)
 DictionaryOfDeez = LoadDialouge("dialouge.json")
@@ -848,13 +853,14 @@ while running:
                         ItemData = json.load(file)
                     CheatString = ""
                     Inventory.append(ItemData[-2])
-                elif "pneumonoultramicroscopicsilicovolcanoconiosis" in CheatString:
+                elif "iamfromtheusa" in CheatString:
                     with open("CoolItemAbilitys.json", "r") as file:
                         ItemData = json.load(file)
                     CheatString = ""
                     Inventory.append(ItemData[-1])
                 elif "iamuptonogood" in CheatString:
                     CheaterFiles = True
+                    CheatString = ""
                         #>:)
             if event.key == pygame.K_e and PersonalSpace == True:
                 if type(YapHolder) is list:
@@ -863,7 +869,7 @@ while running:
                         Interaction = False
                         StringHolder = " "
                         RipOffRugrats = -1
-                        if THEEnemy in ViolentFiles:
+                        if THEEnemy in ViolentFiles and not DeadLol:
                             Outcome = LeFightCommence()
                             if CheaterFiles:
                                 CheaterFiles = False
@@ -884,13 +890,15 @@ while running:
                     elif type(StringHolder) is list and len(StringHolder) > 2:
                         RipOffRugrats = StringHolder[DialougeChoice * 2 + 1]
                         StringHolder = YapHolder[RipOffRugrats]
+                        if THEEnemy in HealerFiles and RipOffRugrats == 3:
+                            DeadLol = False
                     elif type(StringHolder) is list:
                         RipOffRugrats = StringHolder[1]
                         if RipOffRugrats >= len(YapHolder):
                             Interaction = False
                             StringHolder = " "
                             RipOffRugrats = -1
-                            if THEEnemy in ViolentFiles:
+                            if THEEnemy in ViolentFiles and not DeadLol:
                                 Outcome = LeFightCommence()
                                 if CheaterFiles:
                                     CheaterFiles = False

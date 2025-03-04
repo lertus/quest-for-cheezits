@@ -88,6 +88,13 @@
         "y": -20,
         "dialouge": ["..", "You have no idea whats going|on, do you?"]
 
+    },
+    {
+
+        "x": 26,
+        "y": 12,
+        "dialouge": ["hey bub", "do u need the c o o l?", ["ok", 3, "pls no", 4], ["now scram", 5], ["WHY DID YOU COME HERE IN THE FIRST PLACE?!", 6]]
+
     }
 
 ]
